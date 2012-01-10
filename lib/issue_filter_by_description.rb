@@ -28,4 +28,25 @@ module AddDescriptionToAvailableFilters
   end
 end
 
+module SimpleFormatDescriptionColumn
+  def self.included(base)
+    base.module_eval do
+      base.send(:include, ModuleMethods)
+      alias_method_chain :column_content, :simple_format
+    end
+  end
+  
+  module ModuleMethods
+    def column_content_with_simple_format(column, issue)
+      if column.name == :description
+        value = column.value(issue)
+        simple_format(value)
+      else
+        column_content_without_simple_format(column, issue)
+      end
+    end
+  end
+end
+
 Query.send(:include, AddDescriptionToAvailableFilters)
+QueriesHelper.send(:include, SimpleFormatDescriptionColumn)
