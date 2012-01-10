@@ -1,4 +1,5 @@
 require 'redmine'
+require 'issue_filter_by_description.rb'
 
 Redmine::Plugin.register :redmine_issue_filter_by_description do
   name 'Redmine Issue Filter By Description plugin'
